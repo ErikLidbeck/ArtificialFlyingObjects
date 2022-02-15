@@ -103,3 +103,13 @@ class Resize(object):
         image = F.resize(image, self.shape, **self.kwargs)
         target = F.resize(target, self.shape, **self.kwargs)
         return image, target
+    
+class RandomVerticalFlip(object):
+    def __init__(self, flip_prob):
+        self.flip_prob = flip_prob
+
+    def __call__(self, image, target):
+        if random.random() < self.flip_prob:
+            image = F.vflip(image)
+            target = F.vflip(target)
+        return image, target

@@ -36,9 +36,9 @@ class Model(pl.LightningModule):
         x, target = batch
         logits = self.forward(x)
         loss = self.criterion(logits,target)
-        preds = F.softmax(logits,dim=1)
+        #preds = F.softmax(logits,dim=1)
         self.log('Loss_Train',loss)
-        if self.train_metrics != None: self.train_metrics(preds, target)
+        #if self.train_metrics != None: self.train_metrics(preds, target)
         return {'loss':loss}
     
     def validation_step(self, batch: dict, batch_idx: int) -> dict:
@@ -52,9 +52,8 @@ class Model(pl.LightningModule):
         logits = self.forward(x)
 
         loss = self.criterion(logits,target)
-        preds = F.softmax(logits,dim=1)
-     
-        if self.validation_metrics != None: self.validation_metrics(preds, target)
+        #preds = F.softmax(logits,dim=1)
+        #if self.validation_metrics != None: self.validation_metrics(logits, target)
         self.log('loss_Validation',loss)
         return {'loss_Validation':loss}
     
@@ -69,28 +68,28 @@ class Model(pl.LightningModule):
         logits = self.forward(x)
 
         loss = self.criterion(logits,target)
-        preds = F.softmax(logits,dim=1)
-        
-        if self.test_metrics != None: self.test_metrics(preds, target)
+        #preds = F.softmax(logits,dim=1)
+        #if self.test_metrics != None: self.test_metrics(preds, target)
         self.log('loss_Test',loss)
-        #self.log_dict(self._is_metrics_float(self.test_metrics.compute()))
+        #self.log_dict(self.test_metrics.compute())
         return {'loss_Test':loss}
 
-    def training_epoch_end(self, outputs):
-        """
+#     def training_epoch_end(self, outputs):
+#         """
 
-        :param outputs: 
+#         :param outputs: 
 
-        """
-        if self.train_metrics != None: self.log_dict(self.train_metrics.compute())
+#         """
+#         if self.train_metrics != None: self.log_dict(self.train_metrics.compute())
         
-    def validation_epoch_end(self, outputs):
-        """
+#     def validation_epoch_end(self, outputs):
+#         """
 
-        :param outputs: 
+#         :param outputs: 
 
-        """
-        if self.validation_metrics != None: self.log_dict(self.validation_metrics.compute())
+#         """
+#         if self.validation_metrics != None: self.log_dict(self.validation_metrics.compute())
+      
     
     def _is_metrics_float(self, metrics:"dict") -> dict:
         """Check to ensure that the logger only logs single number variables.
